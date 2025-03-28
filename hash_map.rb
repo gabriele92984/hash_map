@@ -34,5 +34,8 @@ class HashMap
       @size += 1
       resize if need_resize?
     end
+
+    def need_resize?
+      (@size.to_f / @capacity) >= @load_factor
   end
 end
