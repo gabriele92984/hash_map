@@ -69,13 +69,13 @@ class HashMap
     old_buckets = @buckets
     @capacity *= 2
     @buckets = Array.new(@capacity)
-    @size = 0
+    @length = 0
 
     old_buckets.each do |head|
-      current = head
-      while current
-        set(current.key, current.value)  # Rehash all entries
-        current = current.next_node
+      current_node = head
+      while current_node
+        set(current_node.key, current_node.value)  # Rehash all entries
+        current_node = current_node.next_node
       end
     end
   end
