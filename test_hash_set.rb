@@ -13,20 +13,20 @@ puts "Keys: #{test.keys}"
 puts
 
 puts "Adding elements:"
-test.add("apple")
-test.add("banana")
-test.add("cherry")
-test.add("date")
-test.add("elderberry")
-test.add("fig")
-test.add("grape")
+test.set("apple")
+test.set("banana")
+test.set("cherry")
+test.set("date")
+test.set("elderberry")
+test.set("fig")
+test.set("grape")
 puts "Capacity after additions: #{test.capacity}"
 puts "Length after additions: #{test.length}"
 puts "Keys after additions: #{test.keys}"
 puts
 
 puts "Adding a duplicate element:"
-test.add("banana")
+test.set("banana")
 puts "Length after adding duplicate: #{test.length} (should remain the same)"
 puts "Keys after adding duplicate: #{test.keys}"
 puts
@@ -48,9 +48,9 @@ puts "Length after trying to remove non-existent: #{test.length} (should remain 
 puts
 
 puts "Adding more elements to trigger resize:"
-test.add("honeydew")
-test.add("kiwi")
-test.add("lemon")
+test.set("honeydew")
+test.set("kiwi")
+test.set("lemon")
 puts "Capacity after more additions (potential resize): #{test.capacity}"
 puts "Length after more additions: #{test.length}"
 puts "Keys after more additions: #{test.keys}"

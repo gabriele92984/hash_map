@@ -84,7 +84,7 @@ class HashSet
     @length = 0
 
     old_buckets.compact.each do |bucket|
-      bucket.each { |key| add(key) }
+      bucket.each { |key| set(key) }
     end
   end
 end
