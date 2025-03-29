@@ -74,7 +74,7 @@ class HashMap
     false
   end
 
-  def remove
+  def remove(key)
     index = get_index(key)
     current_node = @buckets[index]
     previous_node = nil
@@ -86,7 +86,7 @@ class HashMap
         else
           @buckets[index] = current_node.next_node # Head of the list
         end
-        length -= 1
+        @length -= 1
         return current_node.value
       end
       previous_node = current_node
@@ -121,7 +121,7 @@ class HashMap
     @buckets.each do |entry|
       current_node = entry
       while current_node
-        all_keys << current_node.value
+        all_values << current_node.value
         current_node = current_node.next_node
       end
     end
