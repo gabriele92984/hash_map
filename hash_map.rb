@@ -128,12 +128,23 @@ class HashMap
     all_values
   end
 
+  def entries
+    all_entries = []
+    @buckets.each do |entry|
+      current_node = entry
+      while current_node
+        all_entries << [current_node.key, current_node.value]
+        current_node = current_node.next_node
+      end
+    end
+    all_entries
+  end
+
   private
 
   def get_index(key)
     index = hash(key) & @capacity
     raise IndexError if index.negative? || index >= @buckets.size
-
     index
   end
 
