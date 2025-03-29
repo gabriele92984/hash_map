@@ -1,10 +1,10 @@
 class Node
-  attr_accessor :key, :value, :next
+  attr_accessor :key, :value, :next_node
 
   def initialize(key, value)
     @key = key
     @value = value
-    @next = nil
+    @next_node = nil
   end
 end
 
@@ -29,25 +29,39 @@ class HashMap
   end
 
   def set(key, value)
-    index = hash(key) % @capacity
-    raise IndexError if index.negative? || index >= @buckets.size
-    
-    bucket = @buckets[index]
+    index = get_index(key)
+    current_node = @buckets[index]
+
     # Check if a key already exists
-    if entry = bucket.find { |k, _| k == key } 
-      entry[1] = value
-      return
+    if current_node.nil?
+      @buckets[index] = Node.new(key, value)
+      @length += 1
+    else
+      until current_node.next_node.nil?
+        if current_node.key == key
+          current_node.value = value
+          return
+        end
+        current_node = current_node.next_node
+      end
+      current_node.next_node = Node.new(key, value)
+      @length += 1
     end
 
-    bucket << [key, value]
-    @size += 1
     resize if need_resizing?
   end
   
 
   private
 
-  def needs_resizing?
+  def get_index(key)
+    index = hash(key) & @capacity
+    raise IndexError if index.negative? || index >= @buckets.size
+
+    index
+  end
+
+  def need_resizing?
     @size.to_f / @capacity >= @load_factor
   end
 
