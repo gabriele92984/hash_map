@@ -104,6 +104,18 @@ class HashMap
     @length = 0
   end
 
+  def keys
+    all_keys = []
+    @buckets.each do |entry|
+      current_node = entry
+      while current_node
+        all_keys << current_node.key
+        current_node = current_node.next_node
+      end
+    end
+    all_keys
+  end
+
   private
 
   def get_index(key)
