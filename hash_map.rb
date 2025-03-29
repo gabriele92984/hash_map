@@ -75,7 +75,24 @@ class HashMap
   end
 
   def remove
-    
+    index = get_index(key)
+    current_node = @buckets[index]
+    previous_node = nil
+
+    while current_node
+      if current_node.key == key
+        if previous_node
+          previous_node.next_node = current_node.next_node
+        else
+          @buckets[index] = current_node.next_node # Head of the list
+        end
+        length -= 1
+        return current_node.value
+      end
+      previous_node = current_node
+      current_node = current_node.next_node
+    end
+    nil
   end
 
   private
