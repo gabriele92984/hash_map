@@ -143,13 +143,13 @@ class HashMap
   private
 
   def get_index(key)
-    index = hash(key) & @capacity
-    raise IndexError if index.negative? || index >= @buckets.size
+    index = hash(key) % @capacity
+    raise IndexError if index.negative? || index >= @buckets.length
     index
   end
 
   def need_resizing?
-    @size.to_f / @capacity >= @load_factor
+    @length.to_f / @capacity >= @load_factor
   end
 
   def resize
