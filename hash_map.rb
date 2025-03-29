@@ -1,3 +1,13 @@
+class Node
+  attr_accessor :key, :value, :next_node
+
+  def initialize(key, value)
+    @key = key
+    @value = value
+    @next_node = nil
+  end
+end
+
 class HashMap
   attr_reader :capacity, :load_factor
 
@@ -23,16 +33,18 @@ class HashMap
     
     bucket = @buckets[index]
     # Check if a key already exists
-    if pair = bucket.find { |k, _| k == key }
-      pair[1] = value
+    if entry = bucket.find { |k, _| k == key } 
+      entry[1] = value
       return
     end
 
     bucket << [key, value]
     @size += 1
-    resize if needs_resizing?
+    resize if need_resizing?
   end
   
+
+  private
 
   def needs_resizing?
     @size.to_f / @capacity >= @load_factor
@@ -41,11 +53,15 @@ class HashMap
   def resize
     old_buckets = @buckets
     @capacity *= 2
-    @buckets = Array.new(@capacity) { [] }
+    @buckets = Array.new(@capacity)
     @size = 0
-    
-    old_buckets.each do |bucket|
-      bucket.each { |pair| set(pair[0], pair[1]) }
+
+    old_buckets.each do |head|
+      current = head
+      while current
+        set(current.key, current.value)  # Rehash all entries
+        current = current.next_node
+      end
     end
   end
 end
