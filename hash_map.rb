@@ -37,11 +37,12 @@ class HashMap
       @buckets[index] = Node.new(key, value)
       @length += 1
     else
-      until current_node.next_node.nil?
+      while current_node
         if current_node.key == key
-          current_node.value = value
-          return
+          current_node.value = value 
+          return # Value updated, no need to add a new node
         end
+        break if current_node.next_node.nil?
         current_node = current_node.next_node
       end
       current_node.next_node = Node.new(key, value)
@@ -50,7 +51,32 @@ class HashMap
 
     resize if need_resizing?
   end
+
+  def get(key)
+    index = get_index(key)
+    current_node = @buckets[index]
+
+    while current_node
+      return current_node.value if current_node.key == key
+      current_node = current_node.next_node
+    end
+    nil
+  end
   
+  def has?(key)
+    index = get_index(key)
+    current_node = @buckets[index]
+
+    while current_node
+      return true if current_node.key == key
+      current_node = current_node.next_node
+    end
+    false
+  end
+
+  def remove
+    
+  end
 
   private
 
