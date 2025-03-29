@@ -42,7 +42,7 @@ class HashMap
     old_buckets = @buckets
     @capacity *= 2
     @buckets = Array.new(@capacity) { [] }
-    size = 0
+    @size = 0
     
     old_buckets.each do |bucket|
       bucket.each { |pair| set(pair[0], pair[1]) }
