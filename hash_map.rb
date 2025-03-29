@@ -95,6 +95,15 @@ class HashMap
     nil
   end
 
+  def length
+    @length
+  end
+
+  def clear
+    @buckets = Array.new(@capacity)
+    @length = 0
+  end
+
   private
 
   def get_index(key)
