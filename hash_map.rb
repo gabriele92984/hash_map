@@ -14,28 +14,38 @@ class HashMap
 
     key.each_char { |char| hash_code = prime_number * hash_code + char.ord }
 
-    hash_code % @capacity
+    hash_code
   end
 
   def set(key, value)
-    index = hash(key)
-    
-    # Use the following snippet whenever you access a bucket through an index. We want to
-    # raise an error if we try to access an out-of-bounds index
+    index = hash(key) % @capacity
     raise IndexError if index.negative? || index >= @buckets.size
+    
     bucket = @buckets[index]
-
     # Check if a key already exists
-    entry = bucket.find { |pair| pair[0] == key }
-    if entry
-      entry[1] == value
-    else
-      bucket << [key, value]
-      @size += 1
-      resize if need_resize?
+    if pair = bucket.find { |k, _| k == key }
+      pair[1] = value
+      return
     end
 
-    def need_resize?
-      (@size.to_f / @capacity) >= @load_factor
+    bucket << [key, value]
+    @size += 1
+    resize if needs_resizing?
+  end
+  
+
+  def needs_resizing?
+    @size.to_f / @capacity >= @load_factor
+  end
+
+  def resize
+    old_buckets = @buckets
+    @capacity *= 2
+    @buckets = Array.new(@capacity) { [] }
+    size = 0
+    
+    old_buckets.each do |bucket|
+      bucket.each { |pair| set(pair[0], pair[1]) }
+    end
   end
 end
