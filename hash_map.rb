@@ -1,24 +1,25 @@
 class Node
-  attr_accessor :key, :value, :next_node
+  attr_accessor :key, :value, :next
 
   def initialize(key, value)
     @key = key
     @value = value
-    @next_node = nil
+    @next = nil
   end
 end
 
 class HashMap
-  attr_reader :capacity, :load_factor
+  attr_reader :capacity, :load_factor, :length
 
   def initialize(initial_capacity = 16, load_factor = 0.75)
-    @buckets = Array.new(initial_capacity)
     @capacity = initial_capacity
     @load_factor = load_factor
-    @size = 0
+    @buckets = Array.new(@capacity)
+    @length = 0
   end
 
   def hash(key)
+    raise TypeError, 'Key must be a string' unless key.is_a?(String)
     hash_code = 0
     prime_number = 31
 
